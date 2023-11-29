@@ -2,6 +2,7 @@ from flask import Flask, render_template
 # from flask_cors import CORS
 from extensions import db
 from entrega.entrega_controller import EntregaController
+from avaliacao.avaliacao_controller import AvaliacaoController
 from config.config import Config
 
 def create_app():
@@ -9,7 +10,10 @@ def create_app():
     app.config.from_object(Config)
 
     entrega_controller = EntregaController()
+    avaliacao_controller = AvaliacaoController()
+    
     app.register_blueprint(entrega_controller.bp)
+    app.register_blueprint(avaliacao_controller.bp)
 
     with app.app_context():
         db.init_app(app)
