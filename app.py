@@ -1,8 +1,9 @@
-from flask import Flask, render_template
-# from flask_cors import CORS
+from flask import Flask
 from extensions import db
 from entrega.entrega_controller import EntregaController
 from transportadora.transportadora_controller import TransportadoraController
+from diretoria.diretoria_controller import DiretoriaController
+from avaliacao.avaliacao_controller import AvaliacaoController
 from config.config import Config
 
 def create_app():
@@ -10,17 +11,22 @@ def create_app():
     app.config.from_object(Config)
 
     entrega_controller = EntregaController()
+    
     transportadora_controller = TransportadoraController()
-    app.register_blueprint(entrega_controller.bp)
     app.register_blueprint(transportadora_controller.bp)
+
+    diretoria_controller = DiretoriaController()
+    
+    app.register_blueprint(diretoria_controller.bp)
+
+    avaliacao_controller = AvaliacaoController()
+    
+    app.register_blueprint(entrega_controller.bp)
+    app.register_blueprint(avaliacao_controller.bp)
 
     with app.app_context():
         db.init_app(app)
         db.create_all()
-
-    # CORS(app, resources={r"/api/*": {"origins": "*"}})
-
-    # Swagger(app)
 
     return app
 
