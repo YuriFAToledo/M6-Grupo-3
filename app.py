@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from extensions import db
 from entrega.entrega_controller import EntregaController
 from transportadora.transportadora_controller import TransportadoraController
@@ -28,6 +29,8 @@ def create_app():
         db.init_app(app)
         db.create_all()
 
+    cors = CORS(app, resources={r"/*": {"origins": "*"}})
+    
     return app
 
 aplication = create_app()
